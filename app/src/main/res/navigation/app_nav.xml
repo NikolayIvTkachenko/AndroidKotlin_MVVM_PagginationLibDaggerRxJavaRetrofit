@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/searchRepoFragment">
+
+    <fragment
+        android:id="@+id/searchRepoFragment"
+        android:name="com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.SearchRepoFragment"
+        android:label="fragment_search_repo"
+        tools:layout="@layout/fragment_search_repo" >
+        <action
+            android:id="@+id/action_searchRepoFragment_to_detailRepoFragment"
+            app:destination="@id/detailRepoFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailRepoFragment"
+        android:name="com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.DetailRepoFragment"
+        android:label="fragment_detail_repo"
+        tools:layout="@layout/fragment_detail_repo" >
+        <action
+            android:id="@+id/action_detailRepoFragment_to_searchRepoFragment"
+            app:destination="@id/searchRepoFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right" />
+    </fragment>
+</navigation>
