@@ -1,5 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +11,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
+import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.NetworkState
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
 import kotlinx.android.synthetic.main.item_list_layout.view.*
+import kotlinx.android.synthetic.main.network_state_item.view.*
+import java.lang.Exception
 
 /**
  *
@@ -22,63 +27,116 @@ import kotlinx.android.synthetic.main.item_list_layout.view.*
 //2. описание репозитория (items.description)
 //3. аватар владельца (items.owner.avatar_url)
 
-class RepoListAdapter : PagedListAdapter<ItemResponse, RepoListAdapter.ItemViewHolder>(ItemResponseDiffUtil()) {
+class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, RecyclerView.ViewHolder>(USER_COMPARATOR) {
 
-    val itemsList = ArrayList<ItemResponse>()
+    val ITEM_VIEW_TYPE = 1
+    val NETWORK_VIEW_TYPE = 2
 
-    class  ItemViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        var ivAvatar = view.iv_avatar
-        var tvName = view.tv_name_repo
-        var tvDescr = view.tv_descr_repo
+    private var networkState : NetworkState? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder  {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view : View
+        if(viewType == ITEM_VIEW_TYPE){
+            view = layoutInflater.inflate(R.layout.item_list_layout, parent, false)
+            return ItemRespondViewHolder(view)
+        }else{
+            view = layoutInflater.inflate(R.layout.network_state_item, parent, false)
+            return NetworkStateViewHolder(view)
+        }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view  = LayoutInflater.from(parent.context).inflate(R.layout.item_list_layout,null)
-        return ItemViewHolder(view)
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder , position: Int) {
+        if(getItemViewType(position) == ITEM_VIEW_TYPE){
+            (holder as ItemRespondViewHolder).bind(getItem(position), context)
+        }else{
+            (holder as NetworkStateViewHolder).bind(networkState)
+        }
     }
 
-    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val moviePosterUrl: String = itemsList.get(position).owner?.avatarUrl!!
-        Glide.with(holder.itemView.context)
-            .load(moviePosterUrl)
-            .into(holder.ivAvatar)
+    override fun getItemViewType(position: Int):Int{
+        return if (hasExtraRow() && position == itemCount - 1){
+            NETWORK_VIEW_TYPE
+        }else{
+            ITEM_VIEW_TYPE
+        }
+    }
 
-        holder.tvName.text = itemsList.get(position).name
-        holder.tvDescr.text = itemsList.get(position).description
-        holder.itemView.setOnClickListener {
-            itemsList.get(position).let { idRepo ->
+    private fun hasExtraRow(): Boolean{
+        return networkState != null && networkState != NetworkState.LOADED
+    }
 
+    override fun getItemCount():Int{
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+    }
+
+    companion object {
+        private val USER_COMPARATOR = object : DiffUtil.ItemCallback<ItemResponse>(){
+            override fun areItemsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
+                return oldItem.idItem == newItem.idItem
+            }
+
+            override fun areContentsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
+                return oldItem.idItem == newItem.idItem
+                    && oldItem.description == newItem.description
+                    && oldItem.name == newItem.name
             }
         }
     }
 
-    override fun getItemCount(): Int = itemsList.size
+    class ItemRespondViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        fun bind(item: ItemResponse?, context: Context){
+            val moviePosterUrl: String = item?.owner?.avatarUrl!!
+            Glide.with(context)
+                .load(moviePosterUrl)
+                .into(itemView.iv_avatar)
+            itemView.tv_name_repo.text = item?.name
+            itemView.tv_descr_repo.text = item?.description
+            itemView.setOnClickListener {
+                item?.let { idRepo ->
 
-//    fun addRepo(list: ArrayList<ItemResponse>){
-//        Log.d("TESTNETWORK", "addRepo()")
-//        Log.d("TESTNETWORK", "list.count = ${list}")
-//        val repoDiffUtil = RepoDiffUtil(this.itemsList, list)
-//        val repoDiffResult = DiffUtil.calculateDiff(repoDiffUtil)
-//        itemsList.addAll(list)
-//        repoDiffResult.dispatchUpdatesTo(this)
-//
-//    }
-//
-//    fun clearList() {
-//        Log.d("TESTNETWORK", "clearList()")
-//        itemsList.clear()
-//        notifyDataSetChanged()
-//    }
-
-    class ItemResponseDiffUtil : DiffUtil.ItemCallback<ItemResponse>(){
-        override fun areItemsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
-            return oldItem.idItem == newItem.idItem
+                }
+            }
         }
+    }
 
-        override fun areContentsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
-            return oldItem.idItem == newItem.idItem
-                    && oldItem.description == newItem.description
-                    && oldItem.name == newItem.name
+    class NetworkStateViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        fun bind(networkState: NetworkState?){
+            if(networkState != null && networkState == NetworkState.LOADING){
+                itemView.progress_bar.visibility = View.VISIBLE
+            }else{
+                itemView.progress_bar.visibility = View.GONE
+            }
+
+            if(networkState != null && networkState == NetworkState.ERROR){
+                itemView.txt_error.visibility = View.VISIBLE
+                itemView.txt_error.text = networkState.msg
+            }else if(networkState != null && networkState == NetworkState.ENDOFLIST){
+                itemView.txt_error.visibility = View.VISIBLE
+                itemView.txt_error.text = networkState.msg
+            }else{
+                itemView.txt_error.visibility = View.GONE
+            }
+
+        }
+    }
+
+
+    fun setNetworkState(newNetworkState: NetworkState){
+        val previousState : NetworkState? = this.networkState
+        val hadExtraRow : Boolean = hasExtraRow()
+
+        this.networkState = newNetworkState
+        val hasExtraRow: Boolean = hasExtraRow()
+
+        if(hadExtraRow != hasExtraRow){
+            if(hadExtraRow){
+                notifyItemRemoved(super.getItemCount())
+            }else{
+                notifyItemInserted(super.getItemCount())
+            }
+        }else if (hasExtraRow && previousState != newNetworkState){
+            notifyItemChanged(itemCount - 1)
         }
     }
 }

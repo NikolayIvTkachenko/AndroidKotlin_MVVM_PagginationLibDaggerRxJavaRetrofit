@@ -1,6 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.di.modules
 
 import androidx.lifecycle.ViewModel
+import com.rsh_engineering.tkachenkoni.gitviewmanager.data.api.NetworkApi
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.DetailViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel

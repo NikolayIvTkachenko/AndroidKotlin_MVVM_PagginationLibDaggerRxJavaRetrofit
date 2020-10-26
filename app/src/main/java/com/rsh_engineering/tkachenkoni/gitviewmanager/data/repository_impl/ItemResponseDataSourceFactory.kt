@@ -3,9 +3,11 @@ package com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.rsh_engineering.tkachenkoni.gitviewmanager.App
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.api.NetworkApi
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 /**
  *
@@ -14,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 class ItemResponseDataSourceFactory (
     private val request: String,
-    private val networkApi : NetworkApi,
+    private val networkApi: NetworkApi,
     private val compositeDisposable: CompositeDisposable) : DataSource.Factory<Int, ItemResponse>()  {
 
     val itemsLiveDataSource = MutableLiveData<ItemResponseDataSource>()

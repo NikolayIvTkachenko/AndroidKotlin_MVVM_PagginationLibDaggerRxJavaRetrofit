@@ -14,7 +14,7 @@ import io.reactivex.disposables.CompositeDisposable
  */
 interface ItemResponsePageListRepository {
 
-    fun fetchLiveItemResponsePagedList (request :String, compositeDisposable: CompositeDisposable) : LiveData<PagedList<ItemResponse>>
+    fun fetchLiveItemResponsePagedList (request :String, compositeDisposable: CompositeDisposable) //: LiveData<PagedList<ItemResponse>>
 
-    fun getNetworkState(): LiveData<NetworkState>
+    //fun getNetworkState(): LiveData<NetworkState>
 }

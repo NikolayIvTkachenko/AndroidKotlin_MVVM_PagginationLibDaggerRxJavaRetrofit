@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rsh_engineering.tkachenkoni.gitviewmanager.App
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
+import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.NetworkState
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.SearchResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.RepoListAdapter
@@ -17,6 +18,7 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.Ge
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_search_repo.*
+import kotlinx.android.synthetic.main.network_state_item.*
 import javax.inject.Inject
 
 
@@ -25,7 +27,7 @@ class SearchRepoFragment : BaseFragment() {
     private lateinit var generalViewModel: GeneralViewModel
     private lateinit var searcViewModel: SearcViewModel
 
-    val repoadapter = RepoListAdapter()
+    lateinit var repoadapter : RepoListAdapter
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -36,7 +38,7 @@ class SearchRepoFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
+        repoadapter = RepoListAdapter(requireActivity())
         App.getAppComponent().inject(this)
         generalViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[GeneralViewModel::class.java]
         searcViewModel = ViewModelProviders.of(this, viewModelFactory)[SearcViewModel::class.java]
@@ -57,8 +59,8 @@ class SearchRepoFragment : BaseFragment() {
         rv_result_search.apply {
             layoutManager = linearLayoutManager
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+            setHasFixedSize(true)
             adapter = repoadapter
-
         }
 
         btn_search.setOnClickListener {
@@ -70,23 +72,35 @@ class SearchRepoFragment : BaseFragment() {
 
     fun updateAfterClickButtonFind(){
         Log.d("TESTNETWORK", "updateAfterClickButtonFind()")
-        //repoadapter.clearList()
-        generalViewModel.getSearchRepositoryPageList(et_input_search.text.toString())
+        generalViewModel.getSearchRepositoryPageList(this, et_input_search.text.toString())
+        searchText()
     }
 
     fun setupObservable(){
-        generalViewModel.getLivesearchRepository().observe(viewLifecycleOwner, Observer { items ->
-            setDataItems(items)
-        })
-        generalViewModel.getLivesearchRepositoryCount().observe(viewLifecycleOwner, Observer {count ->
-            setDataCount(count)
-        })
+        generalViewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
+            progress_bar.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            txt_error.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
 
-        generalViewModel.itemsResponsePagedList.observe(viewLifecycleOwner, Observer {pageList ->
-            Log.d("TESTNETWORK","pageList")
-            repoadapter.submitList(pageList)
+            if(!generalViewModel.listIsEmpty()){
+                repoadapter.setNetworkState(it)
+            }
+
+
+        })
+        searchText()
+    }
+
+    fun searchText(){
+        generalViewModel.itemResponsePageList.observe(viewLifecycleOwner, Observer {pageList ->
+            if(pageList!=null) {
+                Log.d("TESTNETWORK", "pageList!=null")
+                repoadapter.submitList(pageList)
+            }else{
+                Log.d("TESTNETWORK", "pageList==null")
+            }
         })
     }
+
 
     fun setDataCount(count : Int){
         Log.d("TESTNETWORK", "setDataCount(count) count = ${count}")

@@ -23,20 +23,21 @@ import java.util.concurrent.TimeUnit
  * Created by Nikolay Tkachenko on 22, October, 2020
  *
  */
+
 class NetworkUseCase(
     private val repository : GitNetworkRepository,
     private val repositoryPagination : ItemResponsePageListRepository
 ) {
 
-    fun searchRepositoriesPageList(request : String, compositeDisposable : CompositeDisposable) : LiveData<PagedList<ItemResponse>> {
+    fun searchRepositoriesPageList(request : String, compositeDisposable : CompositeDisposable)  {
         Log.d("TESTNETWORK", "NetworkUseCase getSearchRepositoryPageList")
         Log.d("TESTNETWORK", "value = ${request}")
-        return repositoryPagination.fetchLiveItemResponsePagedList(request,compositeDisposable)
+
     }
 
-    fun statusNetwork():LiveData<NetworkState>{
-        return repositoryPagination.getNetworkState()
-    }
+//    fun statusNetwork():LiveData<NetworkState>{
+//        return repositoryPagination.getNetworkState()
+//    }
 
 
     fun searchRepositories( search: String, page: Int, perPage: Int): Single<SearchResponse> =

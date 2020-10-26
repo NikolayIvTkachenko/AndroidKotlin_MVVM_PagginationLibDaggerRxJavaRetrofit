@@ -21,29 +21,22 @@ import javax.inject.Inject
 class ItemResponsePageListRepositoryImpl (private val networkApi: NetworkApi):
     ItemResponsePageListRepository {
 
-    lateinit var itemResponsePageList: LiveData<PagedList<ItemResponse>>
-    lateinit var itemResponseDataSourceFactory: ItemResponseDataSourceFactory
 
-
-    override fun fetchLiveItemResponsePagedList(request :String, compositeDisposable: CompositeDisposable): LiveData<PagedList<ItemResponse>> {
+    override fun fetchLiveItemResponsePagedList(request :String, compositeDisposable: CompositeDisposable) {
         Log.d("TESTNETWORK", "ItemResponsePageListRepositoryImpl fetchLiveItemResponsePagedList")
         Log.d("TESTNETWORK", "value = ${request}")
-        itemResponseDataSourceFactory = ItemResponseDataSourceFactory(request, networkApi, compositeDisposable)
 
-        val config = PagedList.Config.Builder()
-            .setPrefetchDistance(25)
-            .setEnablePlaceholders(false)
-            .setPageSize(perPage)
-            .build()
-
-        itemResponsePageList = LivePagedListBuilder(itemResponseDataSourceFactory, config).build()
-
-        return itemResponsePageList
+        if(networkApi == null){
+            Log.d("TESTNETWORK", "networkApi == null")
+        }else{
+            Log.d("TESTNETWORK", "networkApi != null")
+        }
     }
 
-    override fun getNetworkState(): LiveData<NetworkState> {
-        return Transformations.switchMap<ItemResponseDataSource, NetworkState>(
-            itemResponseDataSourceFactory.itemsLiveDataSource, ItemResponseDataSource::networkState
-        )
-    }
+//    override fun getNetworkState(): LiveData<NetworkState> {
+//        return Transformations.switchMap<ItemResponseDataSource, NetworkState>(
+//            itemResponseDataSourceFactory.itemsLiveDataSource, ItemResponseDataSource::networkState
+//        )
+//    }
+
 }

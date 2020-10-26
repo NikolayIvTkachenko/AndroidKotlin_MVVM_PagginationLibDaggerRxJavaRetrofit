@@ -14,7 +14,10 @@ import io.reactivex.schedulers.Schedulers
  * Created by Nikolay Tkachenko on 26, October, 2020
  *
  */
-class ItemResponseDataSource (private val request: String, private val networkApi : NetworkApi, private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<Int, ItemResponse>(){
+class ItemResponseDataSource (
+    private val request: String,
+    private val networkApi : NetworkApi,
+    private val compositeDisposable: CompositeDisposable) : PageKeyedDataSource<Int, ItemResponse>(){
 
     private var page = 1
     val networkState: MutableLiveData<NetworkState> = MutableLiveData()
@@ -39,14 +42,14 @@ class ItemResponseDataSource (private val request: String, private val networkAp
                 },{
                         error ->
                         networkState.postValue(NetworkState.ERROR)
-                        Log.d("TESTNETWORK", "secces result = ${error.message}")
+                        Log.d("TESTNETWORK", "error result = ${error.message}")
                         Log.d("MoviewDataSource", error.message)
                 })
         )
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, ItemResponse>) {
-
+        Log.d("TESTNETWORK", "ItemResponseDataSource loadBefore")
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ItemResponse>) {
