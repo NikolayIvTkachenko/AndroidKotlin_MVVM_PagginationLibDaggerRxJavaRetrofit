@@ -49,6 +49,4 @@ class DetailRepoFragment : BaseFragment() {
     fun setupView() {
 
     }
-
-
 }

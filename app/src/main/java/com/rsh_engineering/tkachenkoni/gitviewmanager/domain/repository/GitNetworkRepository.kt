@@ -14,7 +14,7 @@ import io.reactivex.Single
 
 interface GitNetworkRepository {
 
-    fun searchRepositories( search: String, page: Int, perPage: Int): Flowable<SearchResponse>
+    fun searchRepositories( search: String, page: Int, perPage: Int): Single<SearchResponse>
 
     fun listLanguages(list: String): Single<ListLangugesResponse>
 

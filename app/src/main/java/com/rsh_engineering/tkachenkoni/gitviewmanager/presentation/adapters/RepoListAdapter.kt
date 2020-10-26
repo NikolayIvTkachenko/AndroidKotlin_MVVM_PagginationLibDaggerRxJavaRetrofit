@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.item_list_layout.view.*
 //2. описание репозитория (items.description)
 //3. аватар владельца (items.owner.avatar_url)
 
-class RepoListAdapter : RecyclerView.Adapter<RepoListAdapter.ItemViewHolder>()  {
+class RepoListAdapter : PagedListAdapter<ItemResponse, RepoListAdapter.ItemViewHolder>(ItemResponseDiffUtil()) {
 
     val itemsList = ArrayList<ItemResponse>()
 
@@ -53,20 +54,31 @@ class RepoListAdapter : RecyclerView.Adapter<RepoListAdapter.ItemViewHolder>()  
 
     override fun getItemCount(): Int = itemsList.size
 
-    fun addRepo(list: ArrayList<ItemResponse>){
-        Log.d("TESTNETWORK", "addRepo()")
-        Log.d("TESTNETWORK", "list.count = ${list}")
-        val repoDiffUtil = RepoDiffUtil(this.itemsList, list)
-        val repoDiffResult = DiffUtil.calculateDiff(repoDiffUtil)
-        itemsList.addAll(list)
-        repoDiffResult.dispatchUpdatesTo(this)
+//    fun addRepo(list: ArrayList<ItemResponse>){
+//        Log.d("TESTNETWORK", "addRepo()")
+//        Log.d("TESTNETWORK", "list.count = ${list}")
+//        val repoDiffUtil = RepoDiffUtil(this.itemsList, list)
+//        val repoDiffResult = DiffUtil.calculateDiff(repoDiffUtil)
+//        itemsList.addAll(list)
+//        repoDiffResult.dispatchUpdatesTo(this)
+//
+//    }
+//
+//    fun clearList() {
+//        Log.d("TESTNETWORK", "clearList()")
+//        itemsList.clear()
+//        notifyDataSetChanged()
+//    }
 
+    class ItemResponseDiffUtil : DiffUtil.ItemCallback<ItemResponse>(){
+        override fun areItemsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
+            return oldItem.idItem == newItem.idItem
+        }
+
+        override fun areContentsTheSame(oldItem: ItemResponse, newItem: ItemResponse): Boolean {
+            return oldItem.idItem == newItem.idItem
+                    && oldItem.description == newItem.description
+                    && oldItem.name == newItem.name
+        }
     }
-
-    fun clearList() {
-        Log.d("TESTNETWORK", "clearList()")
-        itemsList.clear()
-        notifyDataSetChanged()
-    }
-
 }

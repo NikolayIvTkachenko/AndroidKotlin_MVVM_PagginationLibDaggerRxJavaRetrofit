@@ -16,7 +16,7 @@ import io.reactivex.Single
 
 class GitNetworkRepositoryImpl(val networkApi: NetworkApi) : GitNetworkRepository {
 
-    override fun searchRepositories(search: String, page: Int, perPage: Int): Flowable<SearchResponse> {
+    override fun searchRepositories(search: String, page: Int, perPage: Int): Single<SearchResponse> {
         return networkApi.searchRepositories(search, page, perPage)
     }
 

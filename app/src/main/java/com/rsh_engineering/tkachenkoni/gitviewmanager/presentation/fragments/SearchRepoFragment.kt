@@ -58,6 +58,7 @@ class SearchRepoFragment : BaseFragment() {
             layoutManager = linearLayoutManager
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             adapter = repoadapter
+
         }
 
         btn_search.setOnClickListener {
@@ -69,8 +70,8 @@ class SearchRepoFragment : BaseFragment() {
 
     fun updateAfterClickButtonFind(){
         Log.d("TESTNETWORK", "updateAfterClickButtonFind()")
-        repoadapter.clearList()
-        generalViewModel.getSearchRepository(et_input_search.text.toString())
+        //repoadapter.clearList()
+        generalViewModel.getSearchRepositoryPageList(et_input_search.text.toString())
     }
 
     fun setupObservable(){
@@ -79,6 +80,11 @@ class SearchRepoFragment : BaseFragment() {
         })
         generalViewModel.getLivesearchRepositoryCount().observe(viewLifecycleOwner, Observer {count ->
             setDataCount(count)
+        })
+
+        generalViewModel.itemsResponsePagedList.observe(viewLifecycleOwner, Observer {pageList ->
+            Log.d("TESTNETWORK","pageList")
+            repoadapter.submitList(pageList)
         })
     }
 
@@ -94,7 +100,7 @@ class SearchRepoFragment : BaseFragment() {
             items?.let {
                     items ->
                 Log.d("TESTNETWORK", "items.count = ${items.count()}")
-                repoadapter.addRepo(items as ArrayList<ItemResponse>)
+                //repoadapter.addRepo(items as ArrayList<ItemResponse>)
             }
         }
     }

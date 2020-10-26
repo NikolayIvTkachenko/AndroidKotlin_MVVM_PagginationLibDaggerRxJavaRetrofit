@@ -1,6 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.di.modules
 
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.GitNetworkRepository
+import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.ItemResponsePageListRepository
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.usecases.NetworkUseCase
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.DetailViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
@@ -19,6 +20,9 @@ class UsecaseModule {
 
     @Singleton
     @Provides
-    fun provideGeneralUseCase(repository : GitNetworkRepository) = NetworkUseCase(repository)
+    fun provideGeneralUseCase(
+        repository : GitNetworkRepository,
+        repositoryPagination : ItemResponsePageListRepository)
+            = NetworkUseCase(repository, repositoryPagination)
 
 }

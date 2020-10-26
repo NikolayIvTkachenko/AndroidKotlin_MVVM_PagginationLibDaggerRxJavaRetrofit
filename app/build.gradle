@@ -63,6 +63,8 @@ dependencies {
     //RxJava
     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
+
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
 
@@ -91,5 +93,8 @@ dependencies {
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+
+    //adding paging
+    implementation "android.arch.paging:runtime:1.0.1"
 
 }

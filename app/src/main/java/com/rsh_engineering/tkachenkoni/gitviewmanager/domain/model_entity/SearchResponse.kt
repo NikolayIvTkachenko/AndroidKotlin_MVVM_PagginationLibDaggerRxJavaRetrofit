@@ -14,12 +14,12 @@ import com.squareup.moshi.JsonClass
 data class SearchResponse(
 
     @Json(name = "total_count")
-    var totalCount: Int?,
+    val totalCount: Int?,
 
     @Json(name = "incomplete_results")
-    var incompleteResults: Boolean?,
+    val incompleteResults: Boolean?,
 
     @Json(name = "items")
-    var items: List<ItemResponse>?
+    val items: List<ItemResponse>?
 
 )

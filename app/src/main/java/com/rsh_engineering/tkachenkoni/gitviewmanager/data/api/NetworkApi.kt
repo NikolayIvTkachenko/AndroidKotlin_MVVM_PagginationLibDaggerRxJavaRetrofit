@@ -16,11 +16,11 @@ import retrofit2.http.Query
 
 interface NetworkApi {
 
-    //?page=2&per_page=100'
+    //?page=2&per_page=100 - standard request
     @GET("search/repositories")
     fun searchRepositories(@Query("q") search: String,
                            @Query("page") page : Int,
-                           @Query("per_page") perPage : Int): Flowable<SearchResponse>
+                           @Query("per_page") perPage : Int): Single<SearchResponse>
 
     @GET("repos")
     fun listLanguages(@Query("list-languages") list: String): Single<ListLangugesResponse>
