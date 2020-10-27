@@ -92,6 +92,7 @@ class SearchRepoFragment : BaseFragment() {
 
             if(!generalViewModel.listIsEmpty()){
                 repoadapter.setNetworkState(it)
+                repoadapter.setSearchText(et_input_search.text.toString())
             }
 
             when(it){

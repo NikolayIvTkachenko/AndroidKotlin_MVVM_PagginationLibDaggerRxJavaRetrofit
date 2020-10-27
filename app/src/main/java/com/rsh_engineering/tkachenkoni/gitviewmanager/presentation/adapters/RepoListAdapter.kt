@@ -1,8 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +13,11 @@ import com.bumptech.glide.Glide
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.NetworkState
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
-import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.DetailRepoFragmentDirections
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.SearchRepoFragmentDirections
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import kotlinx.android.synthetic.main.network_state_item.view.*
-import java.lang.Exception
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 /**
  *
@@ -30,10 +29,14 @@ import java.lang.Exception
 //2. описание репозитория (items.description)
 //3. аватар владельца (items.owner.avatar_url)
 
-class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, RecyclerView.ViewHolder>(USER_COMPARATOR) {
+class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, RecyclerView.ViewHolder>(
+    USER_COMPARATOR
+) {
 
     val ITEM_VIEW_TYPE = 1
     val NETWORK_VIEW_TYPE = 2
+
+    private var searchText  = ""
 
     private var networkState : NetworkState? = null
 
@@ -42,14 +45,14 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
         val view : View
         if(viewType == ITEM_VIEW_TYPE){
             view = layoutInflater.inflate(R.layout.item_list_layout, parent, false)
-            return ItemRespondViewHolder(view)
+            return ItemRespondViewHolder(view, searchText)
         }else{
             view = layoutInflater.inflate(R.layout.network_state_item, parent, false)
             return NetworkStateViewHolder(view)
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder , position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(getItemViewType(position) == ITEM_VIEW_TYPE){
             (holder as ItemRespondViewHolder).bind(getItem(position), context)
         }else{
@@ -87,18 +90,28 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
         }
     }
 
-    class ItemRespondViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    class ItemRespondViewHolder(view: View, var searchText: String) : RecyclerView.ViewHolder(view){
         fun bind(item: ItemResponse?, context: Context){
             val moviePosterUrl: String = item?.owner?.avatarUrl!!
             Glide.with(context)
                 .load(moviePosterUrl)
                 .into(itemView.iv_avatar)
-            itemView.tv_name_repo.text = item?.name
-            itemView.tv_descr_repo.text = item?.description
+            var nameRepoTxt = item?.name
+
+            val matcherNameDescr = ("(?i)"+searchText).toRegex()
+            var newNameRepoTxt = nameRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ searchText +"</font>")
+            itemView.tv_name_repo.text = Html.fromHtml(newNameRepoTxt)
+
+            var descrRepoTxt = item?.name
+            var newDescrRepoTxt = descrRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ searchText +"</font>")
+            itemView.tv_descr_repo.text = Html.fromHtml(newDescrRepoTxt)
+
             itemView.setOnClickListener {
                 item?.let {
                     val action
-                            = SearchRepoFragmentDirections.actionSearchRepoFragmentToDetailRepoFragment(it)
+                            = SearchRepoFragmentDirections.actionSearchRepoFragmentToDetailRepoFragment(
+                        it
+                    )
                     itemView.findNavController().navigate(action)
                 }
             }
@@ -144,4 +157,9 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
             notifyItemChanged(itemCount - 1)
         }
     }
+
+    fun setSearchText(seacrh: String){
+        this.searchText = seacrh
+    }
+
 }
