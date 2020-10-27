@@ -22,7 +22,7 @@ interface NetworkApi {
                            @Query("page") page : Int,
                            @Query("per_page") perPage : Int): Single<SearchResponse>
 
-    @GET("repos")
+    @GET("repos/owner-login/name/languages")
     fun listLanguages(@Query("list-languages") list: String): Single<ListLangugesResponse>
 
     @GET("contents")
