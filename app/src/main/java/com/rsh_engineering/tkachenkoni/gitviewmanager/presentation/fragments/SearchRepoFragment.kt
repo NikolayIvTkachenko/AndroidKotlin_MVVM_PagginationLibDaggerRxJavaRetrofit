@@ -1,6 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -77,23 +78,29 @@ class SearchRepoFragment : BaseFragment() {
     }
 
     fun setupObservable(){
+        networkStatus()
+        searchText()
+    }
+
+    fun networkStatus(){
         generalViewModel.getNetworkState().observe(viewLifecycleOwner, Observer {
-            progress_bar.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-            txt_error.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            sf_progress_bar.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            sf_txt_error.visibility = if (generalViewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
 
             if(!generalViewModel.listIsEmpty()){
                 repoadapter.setNetworkState(it)
             }
 
-
         })
-        searchText()
     }
 
     fun searchText(){
         generalViewModel.itemResponsePageList.observe(viewLifecycleOwner, Observer {pageList ->
             if(pageList!=null) {
                 Log.d("TESTNETWORK", "pageList!=null")
+                sf_progress_bar.visibility = View.GONE
+                sf_txt_error.visibility = View.GONE
+
                 repoadapter.submitList(pageList)
             }else{
                 Log.d("TESTNETWORK", "pageList==null")

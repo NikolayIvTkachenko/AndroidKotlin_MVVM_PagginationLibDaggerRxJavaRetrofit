@@ -33,7 +33,6 @@ import javax.inject.Inject
 
 class GeneralViewModel @Inject constructor(private val networkApi: NetworkApi, private val usecase: NetworkUseCase)  : BaseViewModel(){
 
-
     var itemResponsePageList: LiveData<PagedList<ItemResponse>>
     var itemResponseDataSourceFactory: ItemResponseDataSourceFactory
     val config : PagedList.Config
