@@ -137,13 +137,10 @@ class SearchRepoFragment : BaseFragment() {
             bntPressedCallBack = false
             btn_search.isEnabled = true
             if (pageList != null) {
-                Log.d("TESTNETWORK", "pageList!=null")
                 sf_progress_bar.visibility = View.GONE
                 sf_txt_error.visibility = View.GONE
 
                 repoadapter.submitList(pageList)
-            } else {
-                Log.d("TESTNETWORK", "pageList==null")
             }
         })
     }
