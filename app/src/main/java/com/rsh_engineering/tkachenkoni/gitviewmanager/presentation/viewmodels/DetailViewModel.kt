@@ -35,7 +35,7 @@ class DetailViewModel @Inject constructor(val detailNetworkUseCase: DetailNetwor
     fun getReadMe(){
         val owner = lvItemResponse.value?.owner?.login
         val name = lvItemResponse.value?.name
-        val add = compositeDisposable.add(detailNetworkUseCase.getReadme(owner!!, name!!)
+        compositeDisposable.add(detailNetworkUseCase.getReadme(owner!!, name!!)
             .subscribe({readme ->
                 lvReadme.value = readme.string()
             }, {error ->

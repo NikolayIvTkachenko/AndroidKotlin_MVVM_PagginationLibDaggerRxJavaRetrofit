@@ -92,15 +92,15 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
             Glide.with(context)
                 .load(moviePosterUrl)
                 .into(itemView.iv_avatar)
-            var nameRepoTxt = item?.name
+            var nameRepoTxt = item.name
 
             val matcherNameDescr = ("(?i)"+searchText).toRegex()
             var newNameRepoTxt = nameRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ matcherNameDescr.find(nameRepoTxt)?.groupValues?.getOrNull(0) +"</font>")
             itemView.tv_name_repo.text = Html.fromHtml(newNameRepoTxt)
 
-            item?.description?.let {descr ->
+            item.description?.let {descr ->
                 var descrRepoTxt = descr
-                var newDescrRepoTxt = descrRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ matcherNameDescr.find(descrRepoTxt)?.groupValues?.getOrNull(0) +"</font>")
+                var newDescrRepoTxt = descrRepoTxt.replace( matcherNameDescr , "<font color='red'>"+ matcherNameDescr.find(descrRepoTxt)?.groupValues?.getOrNull(0) +"</font>")
                 itemView.tv_descr_repo.text = Html.fromHtml(newDescrRepoTxt)
             }
 

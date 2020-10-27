@@ -60,12 +60,12 @@ class DetailRepoFragment : BaseFragment() {
     }
 
     fun setupView() {
-        val moviePosterUrl: String = itemResponse?.owner?.avatarUrl!!
+        val moviePosterUrl: String = itemResponse.owner?.avatarUrl!!
         Glide.with(requireActivity())
             .load(moviePosterUrl)
             .into(iv_deatil_avatar)
-        tv_name_item.text = itemResponse?.name
-        tv_descr_item.text = itemResponse?.description
+        tv_name_item.text = itemResponse.name
+        tv_descr_item.text = itemResponse.description
 
 
         rc_language.adapter = adapterLang

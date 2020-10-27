@@ -22,7 +22,6 @@ import javax.inject.Inject
 class SearchRepoFragment : BaseFragment() {
 
     private lateinit var generalViewModel: GeneralViewModel
-    private lateinit var searcViewModel: SearcViewModel
 
     lateinit var repoadapter : RepoListAdapter
 
@@ -40,7 +39,7 @@ class SearchRepoFragment : BaseFragment() {
         repoadapter = RepoListAdapter(requireActivity())
         App.getAppComponent().inject(this)
         generalViewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[GeneralViewModel::class.java]
-        searcViewModel = ViewModelProviders.of(this, viewModelFactory)[SearcViewModel::class.java]
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,7 +85,6 @@ class SearchRepoFragment : BaseFragment() {
     }
 
     fun updateAfterClickButtonFind(){
-        Log.d("TESTNETWORK", "updateAfterClickButtonFind()")
         generalViewModel.getSearchRepositoryPageList(this, et_input_search.text.toString())
         searchText()
         networkStatus()
