@@ -20,12 +20,12 @@ class GitNetworkRepositoryImpl(val networkApi: NetworkApi) : GitNetworkRepositor
         return networkApi.searchRepositories(search, page, perPage)
     }
 
-    override fun listLanguages(list: String): Single<ListLangugesResponse> {
-       return networkApi.listLanguages(list)
+    override fun listLanguages(owner:String, userName: String): Single<ListLangugesResponse> {
+       return networkApi.listLanguages(owner, userName)
     }
 
-    override fun getReadme(getreadme: String): Single<GetReadmeResponse> {
-        return networkApi.getReadme(getreadme)
+    override fun getReadme(owner:String, userName: String): Single<GetReadmeResponse> {
+        return networkApi.getReadme(owner, userName)
     }
 
 }

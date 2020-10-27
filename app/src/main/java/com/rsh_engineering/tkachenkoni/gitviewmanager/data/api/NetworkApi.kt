@@ -6,6 +6,7 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.Search
 import io.reactivex.Flowable
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -22,11 +23,11 @@ interface NetworkApi {
                            @Query("page") page : Int,
                            @Query("per_page") perPage : Int): Single<SearchResponse>
 
-    @GET("repos/owner-login/name/languages")
-    fun listLanguages(@Query("list-languages") list: String): Single<ListLangugesResponse>
+    @GET("repos/{owner}/{name}/languages")
+    fun listLanguages(@Path("owner") owner: String , @Path("name")userName: String ): Single<ListLangugesResponse>
 
-    @GET("contents")
-    fun getReadme(@Query("get-the-readme") getreadme: String): Single<GetReadmeResponse>
+    @GET("repos/{owner}/{name}/readme")
+    fun getReadme(@Path("owner") owner: String , @Path("name") userName: String ): Single<GetReadmeResponse>
 
 
     //https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
