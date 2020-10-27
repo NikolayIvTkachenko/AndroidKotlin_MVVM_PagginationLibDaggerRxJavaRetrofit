@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.rsh_engineering.tkachenkoni.gitviewmanager.App
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
+import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.LanguageAdapter
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.RepoListAdapter
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.DetailViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
@@ -111,6 +112,8 @@ class DetailRepoFragment : BaseFragment() {
 
     lateinit var itemResponse : ItemResponse
 
+    private var adapterLang = LanguageAdapter()
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -156,7 +159,7 @@ class DetailRepoFragment : BaseFragment() {
         tv_descr_item.text = itemResponse?.description
 
 
-        //rc_language.adapter = adapter
+        rc_language.adapter = adapterLang
         rc_language.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         rc_language.itemAnimator = SlideInUpAnimator().apply {
             addDuration = 300
@@ -166,15 +169,19 @@ class DetailRepoFragment : BaseFragment() {
     fun setupObservables(){
         detailViewModel.getLvLanguages().observe(viewLifecycleOwner, Observer { fields ->
             Log.d("TESTNETWORK", "setupObservables()-> fields language")
+            var listLang = ArrayList<String>()
             for((s,i) in fields){
                 Log.d("TESTNETWORK", "key = $s , value = $i")
+                listLang.add(s)
             }
-
+            adapterLang.setData(listLang, fields)
+            adapterLang.notifyDataSetChanged()
         })
 
         detailViewModel.getLvReadMe().observe(viewLifecycleOwner, Observer {readme ->
             Log.d("TESTNETWORK", "setupObservables()-> readme")
             Log.d("TESTNETWORK", "readme = $readme")
+            tv_readme.text = readme
         })
     }
 }

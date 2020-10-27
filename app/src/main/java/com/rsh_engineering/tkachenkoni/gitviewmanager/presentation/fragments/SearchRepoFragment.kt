@@ -15,6 +15,7 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.Netwo
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.SearchResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.RepoListAdapter
+import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.utils.hideKeyboard
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelFactory
@@ -76,6 +77,7 @@ class SearchRepoFragment : BaseFragment() {
         generalViewModel.getSearchRepositoryPageList(this, et_input_search.text.toString())
         searchText()
         networkStatus()
+        hideKeyboard(requireActivity())
     }
 
     fun setupObservable(){
@@ -113,23 +115,5 @@ class SearchRepoFragment : BaseFragment() {
                 Log.d("TESTNETWORK", "pageList==null")
             }
         })
-    }
-
-
-    fun setDataCount(count : Int){
-        Log.d("TESTNETWORK", "setDataCount(count) count = ${count}")
-        tv_message.text = "Count Repositories: ${count?.toString()}"
-    }
-
-
-    fun setDataItems(items : List<ItemResponse>) {
-        Log.d("TESTNETWORK", "setDataItems()")
-        items?.let {
-            items?.let {
-                    items ->
-                Log.d("TESTNETWORK", "items.count = ${items.count()}")
-                //repoadapter.addRepo(items as ArrayList<ItemResponse>)
-            }
-        }
     }
 }

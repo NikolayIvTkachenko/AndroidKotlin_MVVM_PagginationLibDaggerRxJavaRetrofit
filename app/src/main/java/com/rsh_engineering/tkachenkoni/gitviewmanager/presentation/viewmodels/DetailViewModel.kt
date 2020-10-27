@@ -59,6 +59,4 @@ class DetailViewModel @Inject constructor(val detailNetworkUseCase: DetailNetwor
     fun getLvLanguages():MutableLiveData<Map<String, Int>>{
         return lvDataLanguages
     }
-
-
 }
