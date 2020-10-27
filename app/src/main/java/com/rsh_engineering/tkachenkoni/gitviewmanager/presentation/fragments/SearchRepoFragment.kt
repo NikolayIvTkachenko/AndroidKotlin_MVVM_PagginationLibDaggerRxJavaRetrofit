@@ -75,6 +75,7 @@ class SearchRepoFragment : BaseFragment() {
         Log.d("TESTNETWORK", "updateAfterClickButtonFind()")
         generalViewModel.getSearchRepositoryPageList(this, et_input_search.text.toString())
         searchText()
+        networkStatus()
     }
 
     fun setupObservable(){
@@ -91,6 +92,12 @@ class SearchRepoFragment : BaseFragment() {
                 repoadapter.setNetworkState(it)
             }
 
+            when(it){
+                NetworkState.LOADING -> {tv_message.text = NetworkState.LOADING.msg}
+                NetworkState.ERROR -> {tv_message.text = NetworkState.ERROR.msg}
+                NetworkState.LOADED -> {tv_message.text = NetworkState.LOADED.msg}
+                NetworkState.ENDOFLIST -> {tv_message.text = NetworkState.ENDOFLIST.msg}
+            }
         })
     }
 
