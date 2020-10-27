@@ -13,7 +13,28 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GetReadmeResponse(
     @Json(name = "name")
-    val name: String
+    val name: String,
+    @Json(name = "path")
+    val path: String,
+    @Json(name = "sha")
+    val sha: String,
+    @Json(name = "size")
+    val size: String,
+    @Json(name = "url")
+    val url: String,
+    @Json(name = "html_url")
+    val html_url: String,
+    @Json(name = "git_url")
+    val git_url: String,
+    @Json(name = "download_url")
+    val download_url: String,
+    @Json(name = "type")
+    val type: String,
+    @Json(name = "content")
+    val content: String,
+    @Json(name = "encoding")
+    val encoding: String,
+
 //{
 //    "name": "README.md",
 //    "path": "README.md",

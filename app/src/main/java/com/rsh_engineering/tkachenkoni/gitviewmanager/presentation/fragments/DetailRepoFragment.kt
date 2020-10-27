@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.rsh_engineering.tkachenkoni.gitviewmanager.App
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
@@ -17,6 +19,7 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.De
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelFactory
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
 import kotlinx.android.synthetic.main.fragment_detail_repo.*
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import javax.inject.Inject
@@ -103,8 +106,8 @@ import javax.inject.Inject
 //2020-10-27 04:36:13.663 14797-14797/com.rsh_engineering.tkachenkoni.gitviewmanager D/TESTNETWORK: DetailRepoFragment setupView()
 class DetailRepoFragment : BaseFragment() {
 
-    private lateinit var generalViewModel: GeneralViewModel
-    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var generalViewModel : GeneralViewModel
+    private lateinit var detailViewModel : DetailViewModel
 
     lateinit var itemResponse : ItemResponse
 
@@ -128,11 +131,19 @@ class DetailRepoFragment : BaseFragment() {
         itemResponse = arguments?.getSerializable("ItemResponse") as ItemResponse
         Log.d("TESTNETWORK", "DetailRepoFragment onViewCreated")
         Log.d("TESTNETWORK", "DetailRepoFragment itemResponse = ${itemResponse}")
+        detailViewModel.setLvItemResponse(itemResponse)
         initUI()
+        downloadData()
     }
 
     fun initUI() {
         setupView()
+        setupObservables()
+    }
+
+    fun downloadData(){
+        detailViewModel.getLanguages()
+        detailViewModel.getReadMe()
     }
 
     fun setupView() {
@@ -144,5 +155,26 @@ class DetailRepoFragment : BaseFragment() {
         tv_name_item.text = itemResponse?.name
         tv_descr_item.text = itemResponse?.description
 
+
+        //rc_language.adapter = adapter
+        rc_language.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        rc_language.itemAnimator = SlideInUpAnimator().apply {
+            addDuration = 300
+        }
+    }
+
+    fun setupObservables(){
+        detailViewModel.getLvLanguages().observe(viewLifecycleOwner, Observer { fields ->
+            Log.d("TESTNETWORK", "setupObservables()-> fields language")
+            for((s,i) in fields){
+                Log.d("TESTNETWORK", "key = $s , value = $i")
+            }
+
+        })
+
+        detailViewModel.getLvReadMe().observe(viewLifecycleOwner, Observer {readme ->
+            Log.d("TESTNETWORK", "setupObservables()-> readme")
+            Log.d("TESTNETWORK", "readme = $readme")
+        })
     }
 }

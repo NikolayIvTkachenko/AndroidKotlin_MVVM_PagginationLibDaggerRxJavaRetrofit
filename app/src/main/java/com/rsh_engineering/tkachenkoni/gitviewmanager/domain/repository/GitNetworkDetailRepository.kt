@@ -1,0 +1,21 @@
+package com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository
+
+import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.GetReadmeResponse
+import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ListLangugesResponse
+import io.reactivex.Single
+import okhttp3.ResponseBody
+
+/**
+ *
+ * Created by Nikolay Tkachenko on 27, October, 2020
+ *
+ */
+interface GitNetworkDetailRepository {
+
+    fun listLanguages(owner:String, userName: String): Single<Map<String, Int>>
+
+    fun getReadme(owner:String, userName: String): Single<GetReadmeResponse>
+
+    fun getReadmeText(url: String):  Single<ResponseBody>
+
+}

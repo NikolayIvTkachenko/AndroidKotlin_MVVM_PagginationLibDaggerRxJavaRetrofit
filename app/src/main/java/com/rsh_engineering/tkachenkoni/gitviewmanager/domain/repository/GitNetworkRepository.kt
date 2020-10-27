@@ -16,8 +16,4 @@ interface GitNetworkRepository {
 
     fun searchRepositories( search: String, page: Int, perPage: Int): Single<SearchResponse>
 
-    fun listLanguages(owner:String, userName: String): Single<ListLangugesResponse>
-
-    fun getReadme(owner:String, userName: String): Single<GetReadmeResponse>
-
 }

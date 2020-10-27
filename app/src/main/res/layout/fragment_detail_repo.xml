@@ -5,7 +5,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".presentation.fragments.DetailRepoFragment">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_margin="10dp"
         android:orientation="vertical"
@@ -32,5 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="16sp"/>
     </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_language"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingTop="8dp"
+            android:clipToPadding="false"/>
+        <TextView
+            android:id="@+id/tv_readme"
+            android:singleLine="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

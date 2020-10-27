@@ -60,13 +60,6 @@ class NetworkUseCase(
                 val sResponse = Single.just(it)
                 sResponse
             }
-    fun listLanguages(owner:String, userName: String): Single<ListLangugesResponse>
-            = repository.listLanguages(owner, userName)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
 
-    fun getReadme(owner:String, userName: String): Single<GetReadmeResponse> = repository.getReadme(owner, userName)
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
 }
 

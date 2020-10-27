@@ -5,9 +5,11 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ListLa
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.SearchResponse
 import io.reactivex.Flowable
 import io.reactivex.Single
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 /**
  *
@@ -24,11 +26,15 @@ interface NetworkApi {
                            @Query("per_page") perPage : Int): Single<SearchResponse>
 
     @GET("repos/{owner}/{name}/languages")
-    fun listLanguages(@Path("owner") owner: String , @Path("name")userName: String ): Single<ListLangugesResponse>
+    fun listLanguages(@Path("owner") owner: String , @Path("name")userName: String ): Single<Map<String, Int>>
 
     @GET("repos/{owner}/{name}/readme")
     fun getReadme(@Path("owner") owner: String , @Path("name") userName: String ): Single<GetReadmeResponse>
 
+    //example
+    //https://api.github.com/repositories/7691631/readme
+    @GET
+    fun getReadmeText(@Url url: String): Single<ResponseBody>
 
     //https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
     //Status: 304 Not Modified

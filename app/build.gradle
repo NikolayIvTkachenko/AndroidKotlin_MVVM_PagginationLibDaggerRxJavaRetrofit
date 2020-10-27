@@ -97,4 +97,7 @@ dependencies {
     //adding paging
     implementation "android.arch.paging:runtime:1.0.1"
 
+    //RecyclerView Animator
+    implementation "jp.wasabeef:recyclerview-animators:3.0.0"
+
 }
