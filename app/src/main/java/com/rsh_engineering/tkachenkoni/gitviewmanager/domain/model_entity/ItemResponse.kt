@@ -2,6 +2,7 @@ package com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.io.Serializable
 
 /**
  *
@@ -235,4 +236,4 @@ data class ItemResponse(
 
     @Json(name = "license")
     val license: License?
-)
+):Serializable

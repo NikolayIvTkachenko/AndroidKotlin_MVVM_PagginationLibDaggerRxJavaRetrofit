@@ -16,7 +16,8 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:popExitAnim="@anim/to_right"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/detailRepoFragment"
@@ -28,5 +29,8 @@
             app:destination="@id/searchRepoFragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+        <argument
+            android:name="ItemResponse"
+            app:argType="com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse" />
     </fragment>
 </navigation>

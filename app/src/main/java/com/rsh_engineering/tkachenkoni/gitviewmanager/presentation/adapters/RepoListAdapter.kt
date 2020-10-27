@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.NetworkState
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
+import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.DetailRepoFragmentDirections
+import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.fragments.SearchRepoFragmentDirections
 import kotlinx.android.synthetic.main.item_list_layout.view.*
 import kotlinx.android.synthetic.main.network_state_item.view.*
 import java.lang.Exception
@@ -93,8 +96,10 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
             itemView.tv_name_repo.text = item?.name
             itemView.tv_descr_repo.text = item?.description
             itemView.setOnClickListener {
-                item?.let { idRepo ->
-
+                item?.let {
+                    val action
+                            = SearchRepoFragmentDirections.actionSearchRepoFragmentToDetailRepoFragment(it)
+                    itemView.findNavController().navigate(action)
                 }
             }
         }

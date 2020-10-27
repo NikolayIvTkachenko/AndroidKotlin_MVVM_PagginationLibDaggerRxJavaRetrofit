@@ -6,10 +6,31 @@
     android:orientation="vertical"
     tools:context=".presentation.fragments.DetailRepoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Detail" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/iv_deatil_avatar"
+            android:layout_width="250dp"
+            android:layout_height="250dp"/>
+        <TextView
+            android:id="@+id/tv_name_item"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="name"
+            android:layout_width="match_parent"
+            android:layout_height="25sp"/>
+        <TextView
+            android:id="@+id/tv_descr_item"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:text="name"
+            android:lines="4"
+            android:layout_width="match_parent"
+            android:layout_height="16sp"/>
+    </LinearLayout>
 
 </LinearLayout>
