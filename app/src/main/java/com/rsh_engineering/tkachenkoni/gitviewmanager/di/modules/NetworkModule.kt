@@ -5,8 +5,6 @@ package com.rsh_engineering.tkachenkoni.gitviewmanager.di.modules
 import com.rsh_engineering.tkachenkoni.gitviewmanager.API_URL
 import com.rsh_engineering.tkachenkoni.gitviewmanager.TIMEOUT_REQUEST
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.api.NetworkApi
-import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.ItemResponsePageListRepositoryImpl
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.ItemResponsePageListRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

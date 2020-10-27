@@ -1,17 +1,9 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels
 
-import android.content.Context
-import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProviders
-import com.rsh_engineering.tkachenkoni.gitviewmanager.App
-import com.rsh_engineering.tkachenkoni.gitviewmanager.R
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ItemResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.usecases.DetailNetworkUseCase
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.usecases.NetworkUseCase
 import javax.inject.Inject
 
 /**

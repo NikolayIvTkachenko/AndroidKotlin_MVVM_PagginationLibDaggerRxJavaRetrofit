@@ -1,10 +1,8 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.di.modules
 
 import androidx.lifecycle.ViewModel
-import com.rsh_engineering.tkachenkoni.gitviewmanager.data.api.NetworkApi
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.DetailViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
-import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelKey
 import dagger.Binds
 import dagger.Module
@@ -29,9 +27,5 @@ abstract class ViewModelsModule {
     @ViewModelKey(DetailViewModel::class)
     internal abstract fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
 
-    @Binds
-    @IntoMap
-    @ViewModelKey(SearcViewModel::class)
-    internal abstract fun bindSearcViewModel(viewModel: SearcViewModel): ViewModel
 
 }

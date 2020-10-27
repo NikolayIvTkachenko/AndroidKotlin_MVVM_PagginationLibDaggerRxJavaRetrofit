@@ -26,42 +26,32 @@ class ItemResponseDataSource (
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, ItemResponse>
     ) {
-        Log.d("TESTNETWORK", "ItemResponseDataSource loadInitial")
-        Log.d("TESTNETWORK", "value = ${request}")
         networkState.postValue(NetworkState.LOADING)
         compositeDisposable.add(
             networkApi.searchRepositories(request, page, perPage)
                 .subscribeOn(Schedulers.io())
                 .subscribe ({
                         result ->
-
-                        Log.d("TESTNETWORK", "loadInitial success result = ${result}")
                         callback.onResult(result?.items!!, null, page+1)
 
                         networkState.postValue(NetworkState.LOADED)
                 },{
                         error ->
                         networkState.postValue(NetworkState.ERROR)
-                        Log.d("TESTNETWORK", "error result = ${error.message}")
-                        Log.d("MoviewDataSource", error.message)
                 })
         )
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, ItemResponse>) {
-        Log.d("TESTNETWORK", "ItemResponseDataSource loadBefore")
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, ItemResponse>) {
-        Log.d("TESTNETWORK", "ItemResponseDataSource loadAfter")
-        Log.d("TESTNETWORK", "value = ${request}")
         networkState.postValue(NetworkState.LOADING)
         compositeDisposable.add(
             networkApi.searchRepositories(request, page, perPage)
                 .subscribeOn(Schedulers.io())
                 .subscribe ({ result ->
 
-                    Log.d("TESTNETWORK", "loadAfter success result = ${result}")
                     if(result.totalCount!! >= params.key){
                         callback.onResult(result?.items!!, params.key+1)
                         networkState.postValue(NetworkState.LOADED)
@@ -71,7 +61,6 @@ class ItemResponseDataSource (
                     }
                 },{
                     networkState.postValue(NetworkState.ERROR)
-                    Log.e("MoviewDataSource", it.message)
                 })
         )
     }

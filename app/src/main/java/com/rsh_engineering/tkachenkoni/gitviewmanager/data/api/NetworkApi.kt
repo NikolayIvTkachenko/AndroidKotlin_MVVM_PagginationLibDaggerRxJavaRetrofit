@@ -31,18 +31,8 @@ interface NetworkApi {
     @GET("repos/{owner}/{name}/readme")
     fun getReadme(@Path("owner") owner: String , @Path("name") userName: String ): Single<GetReadmeResponse>
 
-    //example
-    //https://api.github.com/repositories/7691631/readme
     @GET
     fun getReadmeText(@Url url: String): Single<ResponseBody>
 
-    //https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
-    //Status: 304 Not Modified
-    //Status: 422 Unprocessable Entity
-    //Status: 503 Service Unavailable
-
-    //https://api.github.com/search/repositories?q=topic:ruby+topic:rails
-    //https://api.github.com/search/code?q=addClass+in:file+language:js+repo:jquery/jquery
-    //https://api.github.com/search/users?q=tom+repos:%3E42+followers:%3E1000
 
 }

@@ -14,7 +14,6 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.Netwo
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.RepoListAdapter
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.utils.hideKeyboard
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
-import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.SearcViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_search_repo.*
 import javax.inject.Inject

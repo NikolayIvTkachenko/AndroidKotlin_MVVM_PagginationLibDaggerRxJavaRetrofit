@@ -22,8 +22,6 @@ class ItemResponseDataSourceFactory (
     val itemsLiveDataSource = MutableLiveData<ItemResponseDataSource>()
 
     override fun create(): DataSource<Int, ItemResponse> {
-        Log.d("TESTNETWORK", "ItemResponseDataSourceFactory create()")
-        Log.d("TESTNETWORK", "value = ${request}")
         val itemsDataSource = ItemResponseDataSource(request, networkApi, compositeDisposable)
         itemsLiveDataSource.postValue(itemsDataSource)
 

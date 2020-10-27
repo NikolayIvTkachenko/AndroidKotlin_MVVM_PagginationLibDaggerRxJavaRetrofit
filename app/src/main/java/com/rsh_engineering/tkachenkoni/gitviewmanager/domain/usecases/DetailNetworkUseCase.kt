@@ -1,11 +1,7 @@
 package com.rsh_engineering.tkachenkoni.gitviewmanager.domain.usecases
 
 import android.util.Log
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.GetReadmeResponse
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.model_entity.ListLangugesResponse
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.GitNetworkDetailRepository
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.GitNetworkRepository
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.ItemResponsePageListRepository
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -3,10 +3,8 @@ package com.rsh_engineering.tkachenkoni.gitviewmanager.di.modules
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.api.NetworkApi
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.GitNetworkDetailRepositoryImpl
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.GitNetworkRepositoryImpl
-import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.ItemResponsePageListRepositoryImpl
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.GitNetworkDetailRepository
 import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.GitNetworkRepository
-import com.rsh_engineering.tkachenkoni.gitviewmanager.domain.repository.ItemResponsePageListRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -30,12 +28,6 @@ class RepositoryModule {
     @Singleton
     fun provideGitNetworkDetailRepository(networkApi : NetworkApi): GitNetworkDetailRepository {
         return GitNetworkDetailRepositoryImpl(networkApi)
-    }
-
-    @Provides
-    @Singleton
-    fun provideItemResponsePageListRepository(networkApi : NetworkApi): ItemResponsePageListRepository {
-        return ItemResponsePageListRepositoryImpl(networkApi)
     }
 
 }

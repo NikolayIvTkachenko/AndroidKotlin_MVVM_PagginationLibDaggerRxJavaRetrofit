@@ -25,10 +25,6 @@ import java.util.regex.Pattern
  *
  */
 
-//1. название репозитория (items.name)
-//2. описание репозитория (items.description)
-//3. аватар владельца (items.owner.avatar_url)
-
 class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, RecyclerView.ViewHolder>(
     USER_COMPARATOR
 ) {
