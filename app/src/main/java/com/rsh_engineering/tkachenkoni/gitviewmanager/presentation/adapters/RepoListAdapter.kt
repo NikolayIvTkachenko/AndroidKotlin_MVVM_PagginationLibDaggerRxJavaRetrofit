@@ -99,12 +99,15 @@ class RepoListAdapter(val context: Context) : PagedListAdapter<ItemResponse, Rec
             var nameRepoTxt = item?.name
 
             val matcherNameDescr = ("(?i)"+searchText).toRegex()
-            var newNameRepoTxt = nameRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ searchText +"</font>")
+            var newNameRepoTxt = nameRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ matcherNameDescr.find(nameRepoTxt)?.groupValues?.getOrNull(0) +"</font>")
             itemView.tv_name_repo.text = Html.fromHtml(newNameRepoTxt)
 
-            var descrRepoTxt = item?.name
-            var newDescrRepoTxt = descrRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ searchText +"</font>")
-            itemView.tv_descr_repo.text = Html.fromHtml(newDescrRepoTxt)
+            item?.description?.let {descr ->
+                var descrRepoTxt = descr
+                var newDescrRepoTxt = descrRepoTxt?.replace( matcherNameDescr , "<font color='red'>"+ matcherNameDescr.find(descrRepoTxt)?.groupValues?.getOrNull(0) +"</font>")
+                itemView.tv_descr_repo.text = Html.fromHtml(newDescrRepoTxt)
+            }
+
 
             itemView.setOnClickListener {
                 item?.let {
