@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jakewharton.rxbinding.widget.RxTextView
 import com.rsh_engineering.tkachenkoni.gitviewmanager.App
 import com.rsh_engineering.tkachenkoni.gitviewmanager.R
 import com.rsh_engineering.tkachenkoni.gitviewmanager.data.repository_impl.NetworkState
@@ -15,7 +16,12 @@ import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.adapters.Repo
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.utils.hideKeyboard
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.GeneralViewModel
 import com.rsh_engineering.tkachenkoni.gitviewmanager.presentation.viewmodels.ViewModelFactory
+import io.reactivex.internal.operators.flowable.FlowableBlockingSubscribe.subscribe
 import kotlinx.android.synthetic.main.fragment_search_repo.*
+import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Action1
+import rx.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -67,13 +73,14 @@ class SearchRepoFragment : BaseFragment() {
             }
         }
 
-//        RxTextView.textChanges(et_input_search)
-//            .debounce(700, TimeUnit.MILLISECONDS)
-//            .subscribe(object : Action1<CharSequence> {
-//                override fun call(t: CharSequence?) {
-//                    requestDataRepositories()
-//                }
-//            })
+        RxTextView.textChanges(et_input_search)
+            .debounce(700, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Action1<CharSequence> {
+                override fun call(t: CharSequence?) {
+                    requestDataRepositories()
+                }
+            })
     }
 
     fun requestDataRepositories(){
@@ -138,6 +145,7 @@ class SearchRepoFragment : BaseFragment() {
                 sf_txt_error.visibility = View.GONE
 
                 repoadapter.submitList(pageList)
+                repoadapter.notifyDataSetChanged()
             }
         })
     }
